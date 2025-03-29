@@ -70,7 +70,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-	origin: "http://localhost:5173", // Change this to your frontend URL
+	origin: process.env.FRONTEND_URL, // Change this to your frontend URL
 	credentials: true, // Allow cookies to be sent
 }))
 
@@ -80,6 +80,10 @@ app.use('/api/v1/movie', protectRoute, movieRoutes);
 app.use('/api/v1/tv', protectRoute, tvRoutes);
 app.use('/api/v1/search', protectRoute, searchRoutes);
 app.use('/api/v1/subscription', protectRoute, subscriptionRoutes);
+
+app.get('*', (req, res) => {
+	res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+});
 
 
 // This is your test secret API key.
@@ -104,14 +108,6 @@ app.post("/api/v1/create-payment-intent", async (req, res) => {
 		clientSecret: paymentIntent.client_secret,
 	});
 });
-
-if (ENV_VARS.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, '/dist')));
-
-	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-	});
-}
 
 app.listen(5000, () => {
 	console.log('app started at port http://localhost:' + PORT);
