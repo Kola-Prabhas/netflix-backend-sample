@@ -69,17 +69,10 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({
-// 	origin: process.env.FRONTEND_URL, // Change this to your frontend URL
-// 	credentials: true, // Allow cookies to be sent
-// }))
-
 app.use(cors({
-	origin: (origin, callback) => {
-		callback(null, origin || '*'); // Allows requests from any origin
-	},
-	credentials: true
-}));
+	origin: process.env.FRONTEND_URL, // Change this to your frontend URL
+	credentials: true, // Allow cookies to be sent
+}))
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/movie', protectRoute, movieRoutes);
@@ -94,8 +87,6 @@ app.get('*', (req, res) => {
 
 // This is your test secret API key.
 const stripe = new Stripe(process.env.STRIPE_SECRET);
-
-
 
 app.post("/api/v1/create-payment-intent", async (req, res) => {
 	const { totalAmount } = req.body;
@@ -115,7 +106,7 @@ app.post("/api/v1/create-payment-intent", async (req, res) => {
 	});
 });
 
+connectDB();
 app.listen(5000, () => {
 	console.log('app started at port http://localhost:' + PORT);
-	connectDB();
 });
