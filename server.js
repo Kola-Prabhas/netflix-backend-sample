@@ -70,7 +70,8 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-	origin: process.env.FRONTEND_URL, // Change this to your frontend URL
+	// origin: process.env.FRONTEND_URL, // Change this to your frontend URL
+	origin: '*', // Change this to your frontend URL
 	credentials: true, // Allow cookies to be sent
 }))
 
