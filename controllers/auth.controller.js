@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import { generateTokenAnsSetCookie } from "../utils/generateToken.js";
 import bcryptjs from "bcryptjs";
+
 export const signup = async (req, res) => {
 	try {
 		const { email, password, username } = req.body;
@@ -13,17 +14,7 @@ export const signup = async (req, res) => {
 		if (!emailRegex.test(email)) {
 			return res.status(400).json({ error: "Invalid email format" });
 		}
-		// const passwordRegex =
-		//   /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{6,}$/;
-
-		// if (!passwordRegex.test(password)) {
-		//   return res
-		//     .status(400)
-		//     .json({
-		//       error:
-		//         "Password must be at least 6 characters long and include at least one uppercase letter, one special character, and one digit.",
-		//     });
-		// }
+	
 		if (password.length < 6) {
 			return res
 				.status(400)

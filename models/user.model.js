@@ -23,6 +23,10 @@ const userSchema = mongoose.Schema({
 		type: Array,
 		default: [],
 	},
+	subscription: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Subscription",
+	}
 });
 
 export const User = mongoose.model("User", userSchema);

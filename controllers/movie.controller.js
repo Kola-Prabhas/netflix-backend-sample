@@ -6,7 +6,6 @@ export const getTrendingMovies = async (req, res) => {
 			"https://api.themoviedb.org/3/trending/movie/day"
 		);
 
-		console.log('data ', data);
 		const randomMovie =
 			data.results[Math.floor(Math.random() * data.results?.length)];
 
