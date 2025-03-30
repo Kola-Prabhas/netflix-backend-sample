@@ -10,21 +10,14 @@
 			"use": "@vercel/static"
 		}
 	],
-	"rewrites": [
+	"routes": [
 		{
-			"source": "/payment-success/:id",
-			"destination": "/"
-		}
-	],
-	"headers": [
+			"src": "/api/(.*)",
+			"dest": "server.js"
+		},
 		{
-			"source": "/(.*)",
-			"headers": [
-				{
-					"key": "Cache-Control",
-					"value": "s-maxage=31536000, immutable"
-				}
-			]
+			"src": "/(.*)",
+			"dest": "/dist/index.html"
 		}
 	]
 }
