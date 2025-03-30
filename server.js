@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -14,7 +13,6 @@ import { ENV_VARS } from './config/envVars.js';
 import { protectRoute } from './middleware/protectRoute.js';
 
 const app = express();
-dotenv.config();
 
 const PORT = ENV_VARS.PORT || 5000;
 const __dirname = path.resolve();
@@ -23,7 +21,7 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-	origin: process.env.FRONTEND_URL || 'https://netflix-frontend-sample.vercel.app',
+	origin: ENV_VARS.FRONTEND_URL,
 	credentials: true,
 }));
 
