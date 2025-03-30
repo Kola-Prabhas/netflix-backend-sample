@@ -125,3 +125,5 @@ connectDB();
 app.listen(5000, () => {
 	console.log('app started at port http://localhost:' + PORT);
 });
+
+export default app;
