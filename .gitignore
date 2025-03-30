@@ -38,9 +38,6 @@ jspm_packages/
 .DS_Store
 Thumbs.db
 
-# Build files
-dist/
-build/
 
 # Coverage reports
 coverage/
