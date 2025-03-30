@@ -74,6 +74,18 @@ app.use(cors({
 	credentials: true, // Allow cookies to be sent
 }))
 
+app.use((req, res, next) => {
+	res.setHeader("Access-Control-Allow-Credentials", "true");
+	res.setHeader("Access-Control-Allow-Origin", "https://netflix-frontend-sample.vercel.app");
+	res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,POST,DELETE");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+	if (req.method === "OPTIONS") {
+		res.sendStatus(200);
+		return;
+	}
+	next()
+})
 
 
 app.use('/api/v1/auth', authRoutes);
