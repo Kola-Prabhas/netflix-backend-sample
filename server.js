@@ -69,21 +69,25 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-	origin: process.env.FRONTEND_URL, // Change this to your frontend URL
-	credentials: true, // Allow cookies to be sent
-}))
+// app.use(cors({
+// 	origin: process.env.FRONTEND_URL, // Change this to your frontend URL
+// 	credentials: true, // Allow cookies to be sent
+// }))
 
-// app.use((req, res, next) => {
-// 	res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
-// 	res.header("Access-Control-Allow-Credentials", "true");
-// 	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-// 	res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-// 	if (req.method === "OPTIONS") {
-// 		return res.sendStatus(200);
-// 	}
-// 	next();
-// });
+const corsOptions = {
+	origin: "https://netflix-frontend-sample.vercel.app", // Fallback if env variable is missing
+	credentials: true,
+	allowedHeaders: [
+		"X-CSRF-Token", "X-Requested-With", "Accept", "Accept-Version",
+		"Content-Length", "Content-MD5", "Content-Type", "Date", "X-Api-Version"
+	],
+	methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+};
+
+app.use(cors(corsOptions));
+
+// Ensure preflight requests are handled properly
+app.options("*", cors(corsOptions));
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/movie', protectRoute, movieRoutes);
