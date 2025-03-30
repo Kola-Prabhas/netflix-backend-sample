@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import Stripe from 'stripe';
@@ -69,10 +69,21 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-	origin: process.env.FRONTEND_URL, // Change this to your frontend URL
-	credentials: true, // Allow cookies to be sent
-}))
+// app.use(cors({
+// 	origin: process.env.FRONTEND_URL, // Change this to your frontend URL
+// 	credentials: true, // Allow cookies to be sent
+// }))
+
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
+	res.header("Access-Control-Allow-Credentials", "true");
+	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+	if (req.method === "OPTIONS") {
+		return res.sendStatus(200);
+	}
+	next();
+});
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/movie', protectRoute, movieRoutes);
