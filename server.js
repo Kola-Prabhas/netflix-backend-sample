@@ -26,7 +26,7 @@ app.use(cors({
 }));
 
 // Serve static frontend files
-app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static(path.join(__dirname, 'dist')));
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);
@@ -76,9 +76,9 @@ app.post("/api/v1/create-payment-intent", async (req, res) => {
 });
 
 // Serve React App for all non-API routes
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+// app.get('*', (req, res) => {
+// 	res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// });
 
 // Connect to Database & Start Server
 connectDB();
