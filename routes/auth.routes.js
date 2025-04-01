@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/signup', signup);
 router.post('/login', login);
 router.post('/logout', logout);
-router.get('/:id', protectRoute, getUser)
+router.get('/users/:id', protectRoute, getUser)
 
 router.get('/authCheck', protectRoute, authCheck);
 export default router;

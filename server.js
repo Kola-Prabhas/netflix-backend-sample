@@ -17,26 +17,9 @@ const app = express();
 const PORT = ENV_VARS.PORT || 5000;
 const __dirname = path.resolve();
 
-// Middleware
-app.use(express.json());
-app.use(cookieParser());
-app.use(cors({
-	origin: ENV_VARS.FRONTEND_URL,
-	credentials: true,
-}));
 
-// Serve static frontend files
-// app.use(express.static(path.join(__dirname, 'dist')));
-
-// API Routes
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/movie', protectRoute, movieRoutes);
-app.use('/api/v1/tv', protectRoute, tvRoutes);
-app.use('/api/v1/search', protectRoute, searchRoutes);
-app.use('/api/v1/subscription', protectRoute, subscriptionRoutes);
-
-// Stripe Webhook
 const endpointSecret = process.env.ENDPOINT_SECRET;
+// const endpointSecret = 'whsec_ae37554de55004dfdcbf8e92172be2bd8c60371b42fbb271e084587c8a6a264e';
 const stripe = new Stripe(process.env.STRIPE_SECRET);
 
 app.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
@@ -63,6 +46,26 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (request, respon
 	}
 	response.send();
 });
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+	origin: ENV_VARS.FRONTEND_URL,
+	credentials: true,
+}));
+
+// Serve static frontend files
+// app.use(express.static(path.join(__dirname, 'dist')));
+
+// API Routes
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/movie', protectRoute, movieRoutes);
+app.use('/api/v1/tv', protectRoute, tvRoutes);
+app.use('/api/v1/search', protectRoute, searchRoutes);
+app.use('/api/v1/subscription', protectRoute, subscriptionRoutes);
+
+// Stripe Webhook
+
 
 // Stripe Payment Route
 app.post("/api/v1/create-payment-intent", async (req, res) => {
