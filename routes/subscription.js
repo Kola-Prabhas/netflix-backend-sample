@@ -7,6 +7,6 @@ import {
 const router = express.Router();
 
 router.post("/", createSubscription)
-      .patch('/:subscriptionId', markSubscriptionAsPaid);
+      .patch('/:userId', markSubscriptionAsPaid);
 
 export default router;

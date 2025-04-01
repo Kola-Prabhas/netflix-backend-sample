@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+const subscriptionSchema = new mongoose.Schema({
+	type: {
+		type: String,
+		required: true,
+		enum: ['basic', 'cinemax', 'ultraflix'],
+	},
+	price: {
+		type: Number,
+		required: true,
+	},
+	expiresOn: {
+		type: Date,
+		required: true,
+	},
+	paymentStatus: {
+		type: String,
+		required: true,
+		enum: ['paid', 'unpaid'],
+	},
+});
+
 const userSchema = mongoose.Schema({
 	username: {
 		type: String,
@@ -24,8 +45,8 @@ const userSchema = mongoose.Schema({
 		default: [],
 	},
 	subscription: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Subscription",
+		type: subscriptionSchema,
+		default: null
 	}
 });
 
