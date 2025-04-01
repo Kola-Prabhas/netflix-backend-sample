@@ -16,14 +16,10 @@
 			"dest": "server.js"
 		},
 		{
-			"src": "/(.*)",
-			"dest": "dist/$1",
-			"headers": {
-				"Cache-Control": "s-maxage=31536000, immutable"
-			}
+			"handle": "filesystem"
 		},
 		{
-			"src": "/",
+			"src": "/.*",
 			"dest": "dist/index.html"
 		}
 	]
