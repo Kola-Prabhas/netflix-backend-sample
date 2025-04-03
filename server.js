@@ -3,6 +3,8 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import Stripe from 'stripe';
+import axios from 'axios';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import authRoutes from './routes/auth.routes.js';
 import movieRoutes from './routes/movie.routes.js';
 import tvRoutes from './routes/tv.routes.js';
@@ -82,6 +84,25 @@ app.post("/api/v1/create-payment-intent", async (req, res) => {
 // app.get('*', (req, res) => {
 // 	res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 // });
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+app.post('/api/v1/chat', async (req, res) => {
+	const { message } = req.body;
+
+	try {
+		const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+		const prompt = message;
+		const result = await model.generateContent(prompt);
+		const response = result.response.text();
+
+		res.json({ content: response });
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+})
+
 
 // Connect to Database & Start Server
 connectDB();
